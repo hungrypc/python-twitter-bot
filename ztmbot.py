@@ -17,8 +17,20 @@ def limit_handler(cursor):
         time.sleep(1000)
 
 
-for follower in limit_handler(tweepy.Cursor(api.followers).items()):
-    print(follower.name)
+search_string = 'python'
+numberOfTweets = 2
+
+for tweet in tweepy.Cursor(api.search, search_string).items(numberOfTweets):
+    try:
+        tweet.favorite()
+        print('tweet liked')
+    except tweepy.TweepError as e:
+        print(e.reason)
+    except StopIteration:
+        break
+
+# for follower in limit_handler(tweepy.Cursor(api.followers).items()):
+#     print(follower.name)
     # follower.follow()
 
 # print(user.screen_name)
